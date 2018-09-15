@@ -1,6 +1,6 @@
 import React from 'react'
 import css from './home.css'
-// import { Input } from 'antd'
+import http from '../utils/http'
 
 class Home extends React.Component{
   constructor(props) {
@@ -54,7 +54,7 @@ class Home extends React.Component{
     })
   }
 
-  handleRegisterBtn = (e) => {
+  handleAddBtn = (e) => {
     const { status } = this.state;
     this.setState({
       status: status === 'login' ? 'register' : 'login'
@@ -116,6 +116,46 @@ class Home extends React.Component{
     })
   }
 
+  sendLogin = () => {
+    const { loginEmail, loginPwd } = this.state
+    const param = {
+      email: loginEmail,
+      password: loginPwd
+    }
+    http.post(`http://47.105.54.102:3000/api/users/login`, param).then(res => {
+      if(res.success) {
+        // message.success('登录成功')
+        // 写入token
+        if (!window.localStorage) {
+          alert('浏览器不支持localstorage，无法使用')
+        } else {
+          let storage = window.localStorage
+          storage.setItem('auth_token', 'Bearer ' + res.message)
+          window.location.pathname = '/discover'
+        }
+      } else {
+        alert('登录失败，请重试')
+      }
+    })
+  }
+
+  sendRegister = () => {
+    const { registerName, registerEmail, registerPwd } = this.state
+    const param = {
+      name: registerName,
+      email: registerEmail,
+      password: registerPwd
+    }
+    http.post(`http://47.105.54.102:3000/api/users/registe`, param).then(res => {
+      if (res.success) {
+        // message.success('注册成功')
+        window.location.reload()
+      } else {
+        alert('注册失败，请重试')
+      }
+    })
+  }
+
   render() {
     const { status, focusInput, loginEmail, loginPwd, registerName, registerEmail, registerPwd } = this.state
     return (<div className='materialContainer'>
@@ -132,12 +172,12 @@ class Home extends React.Component{
           <span className={(focusInput === 'login_pwd' || loginPwd) ? 'spin focus' : 'spin'}></span>
         </div>
         <div className='button login'>
-          <button><span>GO</span> <i className='fa fa-check'></i></button>
+          <button onClick={this.sendLogin}><span>GO</span> <i className='fa fa-check'></i></button>
         </div>
         <a href='' className='pass-forgot'>Forgot your password?</a>
       </div>
       <div className='overbox' ref='overBox'>
-        <div className='material-button alt-2' ref='addBtn' onClick={this.handleRegisterBtn}><span className='shape' ref='shape'></span></div>
+        <div className='material-button alt-2' ref='addBtn' onClick={this.handleAddBtn}><span className='shape' ref='shape'></span></div>
         <div className='title'>REGISTER</div>
         <div className='input' ref='register_name'>
           <label className={(focusInput === 'register_name' || registerName) ? 'focus' : ''}>Username</label>
@@ -155,7 +195,7 @@ class Home extends React.Component{
           <span className={(focusInput === 'register_pwd' || registerPwd) ? 'spin focus' : 'spin'}></span>
         </div>
         <div className='button'>
-          <button><span>NEXT</span></button>
+          <button onClick={this.sendRegister}><span>NEXT</span></button>
         </div>
       </div>
     </div>)

@@ -86,6 +86,7 @@
   font-weight: 100;
   top: 0px
 }
+
 .input .spin.focus {
   width: 100%;
 }
@@ -373,7 +374,8 @@
 }
 
 body {
-  background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png);
+  background: #f4f3f1;
+  /* background-image: url(../images/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png); */
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

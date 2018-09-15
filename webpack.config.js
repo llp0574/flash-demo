@@ -4,6 +4,7 @@ const webpack = require('webpack')
 module.exports = {
   devtool: 'eval-source-map',
   entry: [
+    'babel-polyfill',
     'react-hot-loader/patch',
     'webpack-hot-middleware/client',
     path.resolve('src/index.js'),
@@ -15,6 +16,15 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.(png|jpg|gif|eot|woff2)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {}
+          }
+        ]
+      },
       {
         test: /\.jsx?/,
         // Don't use .babelrc in `yarn link`-ed dependency's directory and use in current direction instead
