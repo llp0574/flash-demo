@@ -27,7 +27,6 @@
     "webpack-hot-middleware": "^2.15.0"
   },
   "dependencies": {
-    "antd": "^2.13.11",
     "connected-react-router": "^4.4.0",
     "cropper": "^4.0.0",
     "history": "^4.4.1",
@@ -43,6 +42,7 @@
     "react-swipe": "^5.1.1",
     "react-timer-wrapper": "^0.3.6",
     "redux": "^3.6.0",
+    "socket.io-client": "^2.1.1",
     "swipe-js-iso": "^2.0.4",
     "url-search-params": "^1.1.0"
   }

@@ -80,13 +80,13 @@ class Home extends React.Component{
           $(".overbox .title").fadeIn(300);
           $(".overbox .input").fadeIn(300);
           $(".overbox .button").fadeIn(300);
+          $(this.refs.addBtn).removeClass('material-button')
         }, 700)
-        $(this.refs.addBtn).removeClass('material-button')
       }
-      if ($(this.refs.addBtn).hasClass('material-buton')) {
-        $(this.refs.addBtn).removeClass('material-buton');
-        $(this.refs.addBtn).addClass('material-button');
-      } 
+      // if ($(this.refs.addBtn).hasClass('material-buton')) {
+      //   $(this.refs.addBtn).removeClass('material-buton');
+      //   $(this.refs.addBtn).addClass('material-button');
+      // } 
       if (this.state.status === 'login') {
         $(this.refs.shape).css({
           width: '100%',
@@ -100,8 +100,8 @@ class Home extends React.Component{
         }, 600)
 
         $(this.refs.addBtn).animate({
-          'width': '140px',
-          'height': '140px'
+          'width': '80px',
+          'height': '80px'
         }, 500, () => {
           $(this.refs.box).removeClass('back');
           $(this.refs.addBtn).removeClass('active')
@@ -111,7 +111,7 @@ class Home extends React.Component{
         $('.overbox .input').fadeOut(300);
         $('.overbox .button').fadeOut(300);
 
-        $(this.refs.addBtn).addClass('material-buton');
+        $(this.refs.addBtn).addClass('material-button');
       }
     })
   }
@@ -127,11 +127,18 @@ class Home extends React.Component{
         // message.success('登录成功')
         // 写入token
         if (!window.localStorage) {
-          alert('浏览器不支持localstorage，无法使用')
+          alert('浏览器不支持localstorage，无法使用该网站')
         } else {
           let storage = window.localStorage
-          storage.setItem('auth_token', 'Bearer ' + res.message)
-          window.location.pathname = '/discover'
+          storage.setItem('auth_token', 'Bearer ' + res.message.token)
+          storage.setItem('avatar', res.message.avatar)
+          // verify
+          http.get(`http://47.105.54.102:3000/api/users/verify`).then(res => {
+            if (res.success) {
+              storage.setItem('username', res.message.name)
+              window.location.pathname = '/discover'
+            }
+          })
         }
       } else {
         alert('登录失败，请重试')
